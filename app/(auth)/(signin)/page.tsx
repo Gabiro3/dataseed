@@ -41,9 +41,9 @@ export default function AuthenticationPage() {
         <div className="relative z-20 mt-auto">
           <blockquote className="space-y-2">
             <p className="text-lg">
-              &ldquo;Dataseed Africa is africa's largest agriculture dataset
-              with information ranging from farm status, farmers information,
-              agricultural supply chains and so much more.&rdquo;
+              &ldquo;Dataseed Africa is africa&apos;s largest agriculture
+              dataset with information ranging from farm status, farmers
+              information, agricultural supply chains and so much more.&rdquo;
             </p>
             <footer className="text-sm">Sofia Davis</footer>
           </blockquote>
