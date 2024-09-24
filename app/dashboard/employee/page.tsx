@@ -49,7 +49,7 @@ export default async function Page({ searchParams }: ParamsProps) {
         <Separator />
 
         <EmployeeTable // Update to FarmerTable component
-          searchKey="country" // Adjust if necessary
+          searchKey="nationalID" // Adjust if necessary
           pageNo={1} // Update to the first page since we're not paginating
           totalUsers={totalFarmers} // Update to totalFarmers
           data={farmers} // Update to farmers

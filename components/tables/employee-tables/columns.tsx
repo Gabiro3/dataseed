@@ -12,11 +12,11 @@ export const columns: ColumnDef<Farmer>[] = [
   },
   {
     accessorKey: 'totalFarmArea',
-    header: 'Total Farm Area'
+    header: 'Farm Area (Ha)'
   },
   {
     accessorKey: 'capitalRequired',
-    header: 'Capital Required'
+    header: 'Capital Required (Rwf)'
   },
   {
     accessorKey: 'pestTreatmentSource',
