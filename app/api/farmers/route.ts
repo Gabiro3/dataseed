@@ -1,10 +1,9 @@
 import { PrismaClient } from '@prisma/client';
-import type { NextApiRequest, NextApiResponse } from 'next'; // Import the types for Next.js API routes
 
 const prisma = new PrismaClient();
 
 // Handle GET requests
-export async function GET(req: NextApiRequest, res: NextApiResponse) {
+export async function GET(req: Request) {
   try {
     const farmers = await prisma.farmer.findMany({
       select: {
