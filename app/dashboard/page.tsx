@@ -1,3 +1,4 @@
+'use client';
 import React, { useEffect, useState } from 'react';
 import { AreaGraph } from '@/components/charts/area-graph';
 import { BarGraph } from '@/components/charts/bar-graph';
@@ -5,6 +6,7 @@ import { PieGraph } from '@/components/charts/pie-graph';
 import { CalendarDateRangePicker } from '@/components/date-range-picker';
 import PageContainer from '@/components/layout/page-container';
 import { RecentSales } from '@/components/recent-sales';
+
 import { Button } from '@/components/ui/button';
 import {
   Card,
