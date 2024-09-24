@@ -27,39 +27,10 @@ export const fetchFarmersData = async () => {
     await prisma.$disconnect();
   }
 };
-
-export const fetchDetails = async () => {
-  try {
-    const farmers = await fetchFarmersData();
-
-    const totalFarmers = farmers.length;
-    const totalCultivatedLand = farmers.reduce(
-      (acc, farmer) => acc + farmer.totalFarmArea,
-      0
-    );
-    const totalCapital = farmers.reduce(
-      (acc, farmer) => acc + farmer.capitalRequired,
-      0
-    );
-    const totalYieldSoldPercentage = farmers.reduce(
-      (acc, farmer) => acc + farmer.yieldSoldPercentage,
-      0
-    );
-
-    const averageCapitalPerFarmer =
-      totalFarmers > 0 ? totalCapital / totalFarmers : 0;
-    const averageYieldSoldPercentagePerFarmer =
-      totalFarmers > 0 ? totalYieldSoldPercentage / totalFarmers : 0;
-    console.log(farmers);
-
-    return {
-      totalFarmers,
-      totalCultivatedLand,
-      averageCapitalPerFarmer,
-      averageYieldSoldPercentagePerFarmer
-    };
-  } catch (error) {
-    console.error('Error fetching details:', error);
-    throw new Error('Could not fetch details');
+export async function fetchDetails() {
+  const response = await fetch('/api/farmers/');
+  if (!response.ok) {
+    throw new Error('Failed to fetch data');
   }
-};
+  return response.json();
+}

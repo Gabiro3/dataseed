@@ -144,7 +144,7 @@ export default function Page() {
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">
-                    Market Sales
+                    Avg. Capital
                   </CardTitle>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -161,7 +161,9 @@ export default function Page() {
                   </svg>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">+12,234</div>
+                  <div className="text-2xl font-bold">
+                    {data?.averageCapitalPerFarmer}
+                  </div>
                   <p className="text-xs text-muted-foreground">
                     +19% from last year
                   </p>
@@ -170,7 +172,7 @@ export default function Page() {
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">
-                    GDP Markup
+                    Avg. Yield Sold
                   </CardTitle>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -186,7 +188,9 @@ export default function Page() {
                   </svg>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">24.9%</div>
+                  <div className="text-2xl font-bold">
+                    {data?.averageYieldSoldPercentagePerFarmer}
+                  </div>
                   <p className="text-xs text-muted-foreground">
                     +4.9% from last year
                   </p>
