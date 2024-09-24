@@ -1,48 +1,38 @@
-'use client';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Farmer } from '@/constants/data';
 import { ColumnDef } from '@tanstack/react-table';
+import { Farmer } from '@/constants/data'; // TypeScript Farmer model
 import { CellAction } from './cell-action';
-
 export const columns: ColumnDef<Farmer>[] = [
   {
-    id: 'select',
-    header: ({ table }) => (
-      <Checkbox
-        checked={table.getIsAllPageRowsSelected()}
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false
+    accessorKey: 'phoneNumber',
+    header: 'Phone Number'
   },
   {
-    accessorKey: 'first_name',
-    header: 'NAME'
+    accessorKey: 'nationalID',
+    header: 'National ID'
   },
   {
-    accessorKey: 'country',
-    header: 'COUNTRY'
+    accessorKey: 'totalFarmArea',
+    header: 'Total Farm Area'
   },
   {
-    accessorKey: 'email',
-    header: 'EMAIL'
+    accessorKey: 'capitalRequired',
+    header: 'Capital Required'
   },
   {
-    accessorKey: 'job',
-    header: 'COMPANY'
+    accessorKey: 'pestTreatmentSource',
+    header: 'Pest Treatment Source'
   },
   {
-    accessorKey: 'gender',
-    header: 'GENDER'
+    accessorKey: 'sellingMarkets',
+    header: 'Selling Markets'
+  },
+  {
+    accessorKey: 'farmLocation',
+    header: 'Farm Location'
+  },
+  {
+    accessorKey: 'yieldSoldPercentage',
+    header: 'Yield Sold (%)'
   },
   {
     id: 'actions',
