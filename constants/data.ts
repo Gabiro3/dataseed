@@ -8,6 +8,20 @@ export type User = {
   verified: boolean;
   status: string;
 };
+export type Farmer = {
+  id: number;
+  phoneNumber: string;
+  nationalID: string;
+  totalFarmArea: number;
+  capitalRequired: number;
+  pestTreatmentSource: string;
+  sellingMarkets: string;
+  farmLocation: string;
+  yieldSoldPercentage: number;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
 export const users: User[] = [
   {
     id: 1,
