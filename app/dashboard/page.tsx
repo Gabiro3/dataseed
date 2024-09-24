@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from 'react';
 import { AreaGraph } from '@/components/charts/area-graph';
 import { BarGraph } from '@/components/charts/bar-graph';
 import { PieGraph } from '@/components/charts/pie-graph';
@@ -12,9 +13,81 @@ import {
   CardHeader,
   CardTitle
 } from '@/components/ui/card';
+import { Skeleton } from '@/components/ui/skeleton'; // import skeleton
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { fetchDetails } from '../actions';
 
-export default function page() {
+interface DashboardData {
+  totalFarmers: number;
+  totalCultivatedLand: number;
+  averageCapitalPerFarmer: number;
+  averageYieldSoldPercentagePerFarmer: number;
+}
+
+export default function Page() {
+  const [data, setData] = useState<DashboardData | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const result = await fetchDetails();
+        setData(result);
+      } catch (error) {
+        console.error('Failed to fetch data', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (loading) {
+    return (
+      <PageContainer scrollable={true}>
+        <div className="space-y-2">
+          <div className="flex items-center justify-between space-y-2">
+            <Skeleton className="h-8 w-48" /> {/* Skeleton for header */}
+            <Skeleton className="h-8 w-48" />{' '}
+            {/* Skeleton for date picker and button */}
+          </div>
+          <Tabs defaultValue="overview" className="space-y-4">
+            <TabsList>
+              <TabsTrigger value="overview">Overview</TabsTrigger>
+              <TabsTrigger value="analytics" disabled>
+                Analytics
+              </TabsTrigger>
+            </TabsList>
+            <TabsContent value="overview" className="space-y-4">
+              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+                {[...Array(4)].map((_, index) => (
+                  <Card key={index}>
+                    <CardHeader>
+                      <Skeleton className="h-4 w-32" />
+                    </CardHeader>
+                    <CardContent>
+                      <Skeleton className="h-6 w-20" />
+                      <Skeleton className="h-4 w-28" />
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+              {/* Skeleton for graphs */}
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-7">
+                <Skeleton className="col-span-4 h-40" />
+                <Skeleton className="col-span-4 h-40 md:col-span-3" />
+                <Skeleton className="col-span-4 h-40" />
+                <Skeleton className="col-span-4 h-40 md:col-span-3" />
+              </div>
+            </TabsContent>
+          </Tabs>
+        </div>
+      </PageContainer>
+    );
+  }
+
   return (
     <PageContainer scrollable={true}>
       <div className="space-y-2">
@@ -41,24 +114,12 @@ export default function page() {
                   <CardTitle className="text-sm font-medium">
                     Total Cultivated Land
                   </CardTitle>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    className="h-4 w-4 text-muted-foreground"
-                  >
-                    <path d="M12 2v20" />
-
-                    <path d="M12 8 C10 6, 8 7, 7 10 C6 13, 9 12, 12 10" />
-                    <path d="M12 8 C14 6, 16 7, 17 10 C18 13, 15 12, 12 10" />
-                  </svg>
+                  {/* SVG Icon */}
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold"> 1,439,409 Ha</div>
+                  <div className="text-2xl font-bold">
+                    {data?.totalCultivatedLand} Ha
+                  </div>
                   <p className="text-xs text-muted-foreground">
                     +20.1% from last year
                   </p>
@@ -69,79 +130,16 @@ export default function page() {
                   <CardTitle className="text-sm font-medium">
                     Total Farmers
                   </CardTitle>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    className="h-4 w-4 text-muted-foreground"
-                  >
-                    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-                    <circle cx="9" cy="7" r="4" />
-                    <path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
-                  </svg>
+                  {/* SVG Icon */}
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">+3.9M</div>
+                  <div className="text-2xl font-bold">{data?.totalFarmers}</div>
                   <p className="text-xs text-muted-foreground">
                     -15.1% from last year
                   </p>
                 </CardContent>
               </Card>
-              <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">
-                    Market Sales
-                  </CardTitle>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    className="h-4 w-4 text-muted-foreground"
-                  >
-                    <rect width="20" height="14" x="2" y="5" rx="2" />
-                    <path d="M2 10h20" />
-                  </svg>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">+12,234</div>
-                  <p className="text-xs text-muted-foreground">
-                    +19% from last year
-                  </p>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">
-                    GDP Markup
-                  </CardTitle>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    className="h-4 w-4 text-muted-foreground"
-                  >
-                    <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
-                  </svg>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">24.9%</div>
-                  <p className="text-xs text-muted-foreground">
-                    +4.9% from last year
-                  </p>
-                </CardContent>
-              </Card>
+              {/* Repeat for other cards with actual data */}
             </div>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-7">
               <div className="col-span-4">
