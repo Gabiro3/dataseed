@@ -1,6 +1,6 @@
+// page.tsx
 import { Breadcrumbs } from '@/components/breadcrumbs';
 import PageContainer from '@/components/layout/page-container';
-import { columns } from '@/components/tables/employee-tables/columns';
 import { EmployeeTable } from '@/components/tables/employee-tables/employee-table';
 import { buttonVariants } from '@/components/ui/button';
 import { Heading } from '@/components/ui/heading';
@@ -16,15 +16,15 @@ const breadcrumbItems = [
   { title: 'Farmers', link: '/dashboard/farmers' } // Updated breadcrumb title
 ];
 
-type paramsProps = {
+type ParamsProps = {
   searchParams: {
     [key: string]: string | string[] | undefined;
   };
 };
 
-export default async function page({ searchParams }: paramsProps) {
+export default async function Page({ searchParams }: ParamsProps) {
   // Fetch farmers data directly
-  const farmers = await fetchFarmersData();
+  const farmers: Farmer[] = await fetchFarmersData();
   const totalFarmers = farmers.length; // Count total farmers
   const pageCount = 1; // Since we're not paginating for now
 
@@ -51,7 +51,6 @@ export default async function page({ searchParams }: paramsProps) {
         <EmployeeTable // Update to FarmerTable component
           searchKey="country" // Adjust if necessary
           pageNo={1} // Update to the first page since we're not paginating
-          columns={columns} // Ensure this matches your farmer data structure
           totalUsers={totalFarmers} // Update to totalFarmers
           data={farmers} // Update to farmers
           pageCount={pageCount} // Set pageCount to 1

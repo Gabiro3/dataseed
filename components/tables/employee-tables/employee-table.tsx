@@ -1,4 +1,7 @@
+// EmployeeTable.tsx
 'use client';
+
+import React from 'react';
 import {
   ColumnDef,
   PaginationState,
@@ -8,8 +11,6 @@ import {
   getPaginationRowModel,
   useReactTable
 } from '@tanstack/react-table';
-import React from 'react';
-
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
@@ -34,25 +35,22 @@ import {
 import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
+import { CellAction } from './cell-action'; // Ensure correct path
+import { Farmer } from '@/constants/data'; // TypeScript Farmer model
 
 interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[];
   data: TData[];
   searchKey: string;
   pageNo: number;
   totalUsers: number;
   pageSizeOptions?: number[];
   pageCount: number;
-  searchParams?: {
-    [key: string]: string | string[] | undefined;
-  };
 }
 
-export function EmployeeTable<TData, TValue>({
-  columns,
+export function EmployeeTable<TData extends Farmer, TValue>({
   data,
-  pageNo,
   searchKey,
+  pageNo,
   totalUsers,
   pageCount,
   pageSizeOptions = [10, 20, 30, 40, 50]
@@ -60,6 +58,69 @@ export function EmployeeTable<TData, TValue>({
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+
+  // Define columns inside the Client Component
+  const columns: ColumnDef<Farmer, any>[] = [
+    {
+      id: 'select',
+      header: ({ table }) => (
+        <Input
+          type="checkbox"
+          checked={table.getIsAllPageRowsSelected()}
+          onChange={(e) => table.toggleAllPageRowsSelected(e.target.checked)}
+          aria-label="Select all"
+        />
+      ),
+      cell: ({ row }) => (
+        <Input
+          type="checkbox"
+          checked={row.getIsSelected()}
+          onChange={(e) => row.toggleSelected(e.target.checked)}
+          aria-label="Select row"
+        />
+      ),
+      enableSorting: false,
+      enableHiding: false
+    },
+    {
+      accessorKey: 'phoneNumber',
+      header: 'Phone Number'
+    },
+    {
+      accessorKey: 'nationalID',
+      header: 'National ID'
+    },
+    {
+      accessorKey: 'totalFarmArea',
+      header: 'Total Farm Area'
+    },
+    {
+      accessorKey: 'capitalRequired',
+      header: 'Capital Required'
+    },
+    {
+      accessorKey: 'pestTreatmentSource',
+      header: 'Pest Treatment Source'
+    },
+    {
+      accessorKey: 'sellingMarkets',
+      header: 'Selling Markets'
+    },
+    {
+      accessorKey: 'farmLocation',
+      header: 'Farm Location'
+    },
+    {
+      accessorKey: 'yieldSoldPercentage',
+      header: 'Yield Sold (%)'
+    },
+    {
+      id: 'actions',
+      header: 'Actions',
+      cell: ({ row }) => <CellAction data={row.original} />
+    }
+  ];
+
   // Search params
   const page = searchParams?.get('page') ?? '1';
   const pageAsNumber = Number(page);
@@ -68,9 +129,6 @@ export function EmployeeTable<TData, TValue>({
   const per_page = searchParams?.get('limit') ?? '10';
   const perPageAsNumber = Number(per_page);
   const fallbackPerPage = isNaN(perPageAsNumber) ? 10 : perPageAsNumber;
-
-  /* this can be used to get the selectedrows 
-  console.log("value", table.getFilteredSelectedRowModel()); */
 
   // Create query string
   const createQueryString = React.useCallback(
@@ -107,9 +165,7 @@ export function EmployeeTable<TData, TValue>({
         scroll: false
       }
     );
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pageIndex, pageSize]);
+  }, [pageIndex, pageSize, pathname, createQueryString, router]);
 
   const table = useReactTable({
     data,
@@ -127,33 +183,6 @@ export function EmployeeTable<TData, TValue>({
   });
 
   const searchValue = table.getColumn(searchKey)?.getFilterValue() as string;
-
-  // React.useEffect(() => {
-  //   if (debounceValue.length > 0) {
-  //     router.push(
-  //       `${pathname}?${createQueryString({
-  //         [selectedOption.value]: `${debounceValue}${
-  //           debounceValue.length > 0 ? `.${filterVariety}` : ""
-  //         }`,
-  //       })}`,
-  //       {
-  //         scroll: false,
-  //       }
-  //     )
-  //   }
-
-  //   if (debounceValue.length === 0) {
-  //     router.push(
-  //       `${pathname}?${createQueryString({
-  //         [selectedOption.value]: null,
-  //       })}`,
-  //       {
-  //         scroll: false,
-  //       }
-  //     )
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [debounceValue, filterVariety, selectedOption.value])
 
   React.useEffect(() => {
     if (searchValue?.length > 0) {
@@ -182,9 +211,7 @@ export function EmployeeTable<TData, TValue>({
     }
 
     setPagination((prev) => ({ ...prev, pageIndex: 0 }));
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchValue]);
+  }, [searchValue, createQueryString, pathname, router]);
 
   return (
     <>
@@ -201,18 +228,16 @@ export function EmployeeTable<TData, TValue>({
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
-                  return (
-                    <TableHead key={header.id}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
-                    </TableHead>
-                  );
-                })}
+                {headerGroup.headers.map((header) => (
+                  <TableHead key={header.id}>
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                  </TableHead>
+                ))}
               </TableRow>
             ))}
           </TableHeader>
@@ -261,9 +286,7 @@ export function EmployeeTable<TData, TValue>({
               </p>
               <Select
                 value={`${table.getState().pagination.pageSize}`}
-                onValueChange={(value) => {
-                  table.setPageSize(Number(value));
-                }}
+                onValueChange={(value) => table.setPageSize(Number(value))}
               >
                 <SelectTrigger className="h-8 w-[70px]">
                   <SelectValue
