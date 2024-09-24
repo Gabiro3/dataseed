@@ -50,6 +50,7 @@ export const fetchDetails = async () => {
       totalFarmers > 0 ? totalCapital / totalFarmers : 0;
     const averageYieldSoldPercentagePerFarmer =
       totalFarmers > 0 ? totalYieldSoldPercentage / totalFarmers : 0;
+    console.log(farmers);
 
     return {
       totalFarmers,
