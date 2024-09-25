@@ -34,8 +34,8 @@ export default function Sidebar({ className }: SidebarProps) {
             src={Logo} // Path to your logo
             alt="Dataseed Logo" // Provide an alt text for accessibility
             className="mr-2 h-6 w-6" // Adjust height and width as needed
-            width={24} // Specify width for Image component
-            height={24} // Specify height for Image component
+            width={64} // Specify width for Image component
+            height={64} // Specify height for Image component
           />
         </Link>
       </div>
