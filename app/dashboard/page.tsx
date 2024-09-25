@@ -204,9 +204,9 @@ export default function Page() {
               </div>
               <Card className="col-span-4 md:col-span-3">
                 <CardHeader>
-                  <CardTitle>Recent Sales</CardTitle>
+                  <CardTitle>Crops Markup</CardTitle>
                   <CardDescription>
-                    You made 265 sales this month.
+                    Crops distribution by farmers.
                   </CardDescription>
                 </CardHeader>
                 <CardContent>

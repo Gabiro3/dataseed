@@ -28,22 +28,22 @@ const chartData = [
 
 const chartConfig = {
   visitors: {
-    label: 'Visitors'
+    label: 'Crop types'
   },
   chrome: {
-    label: 'Chrome',
+    label: 'Cereals',
     color: 'hsl(var(--chart-1))'
   },
   safari: {
-    label: 'Safari',
+    label: 'Tubers',
     color: 'hsl(var(--chart-2))'
   },
   firefox: {
-    label: 'Firefox',
+    label: 'Bananas',
     color: 'hsl(var(--chart-3))'
   },
   edge: {
-    label: 'Edge',
+    label: 'Fruits & Vegetables',
     color: 'hsl(var(--chart-4))'
   },
   other: {
@@ -60,7 +60,7 @@ export function PieGraph() {
   return (
     <Card className="flex flex-col">
       <CardHeader className="items-center pb-0">
-        <CardTitle>Pie Chart - Donut with Text</CardTitle>
+        <CardTitle>Crops Harvested</CardTitle>
         <CardDescription>January - June 2024</CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
@@ -102,7 +102,7 @@ export function PieGraph() {
                           y={(viewBox.cy || 0) + 24}
                           className="fill-muted-foreground"
                         >
-                          Visitors
+                          Crops
                         </tspan>
                       </text>
                     );
@@ -118,7 +118,7 @@ export function PieGraph() {
           Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
         </div>
         <div className="leading-none text-muted-foreground">
-          Showing total visitors for the last 6 months
+          Showing total crops harvested - Season A 2024
         </div>
       </CardFooter>
     </Card>

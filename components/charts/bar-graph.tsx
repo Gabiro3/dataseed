@@ -115,14 +115,14 @@ const chartData = [
 
 const chartConfig = {
   views: {
-    label: 'Page Views'
+    label: 'Farmers'
   },
   desktop: {
-    label: 'Desktop',
+    label: 'Organic',
     color: 'hsl(var(--chart-1))'
   },
   mobile: {
-    label: 'Mobile',
+    label: 'Inorganic',
     color: 'hsl(var(--chart-2))'
   }
 } satisfies ChartConfig;
@@ -143,9 +143,9 @@ export function BarGraph() {
     <Card>
       <CardHeader className="flex flex-col items-stretch space-y-0 border-b p-0 sm:flex-row">
         <div className="flex flex-1 flex-col justify-center gap-1 px-6 py-5 sm:py-6">
-          <CardTitle>Bar Chart - Interactive</CardTitle>
+          <CardTitle>Fertilisers Applied</CardTitle>
           <CardDescription>
-            Showing total visitors for the last 3 months
+            Showing total farmers per fertiliser type.
           </CardDescription>
         </div>
         <div className="flex">

@@ -28,11 +28,11 @@ const chartData = [
 
 const chartConfig = {
   desktop: {
-    label: 'Desktop',
+    label: 'Fertisers Applied',
     color: 'hsl(var(--chart-1))'
   },
   mobile: {
-    label: 'Mobile',
+    label: 'Without Fertilisers',
     color: 'hsl(var(--chart-2))'
   }
 } satisfies ChartConfig;
@@ -41,9 +41,9 @@ export function AreaGraph() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Area Chart - Stacked</CardTitle>
+        <CardTitle>Harvesting Variation</CardTitle>
         <CardDescription>
-          Showing total visitors for the last 6 months
+          Showing harvesting variation as % of crop yields
         </CardDescription>
       </CardHeader>
       <CardContent>

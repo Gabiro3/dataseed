@@ -27,8 +27,10 @@ import {
   Twitter,
   User,
   User2Icon,
-  UserX2Icon,
-  X
+  X,
+  LineChartIcon,
+  Tractor,
+  FileTextIcon
 } from 'lucide-react';
 
 export type Icon = LucideIcon;
@@ -40,11 +42,11 @@ export const Icons = {
   close: X,
   profile: User2Icon,
   spinner: Loader2,
-  kanban: CircuitBoardIcon,
+  kanban: FileText,
   chevronLeft: ChevronLeft,
   chevronRight: ChevronRight,
   trash: Trash,
-  employee: UserX2Icon,
+  employee: Tractor,
   post: FileText,
   page: File,
   media: Image,
@@ -53,7 +55,7 @@ export const Icons = {
   ellipsis: MoreVertical,
   add: Plus,
   warning: AlertTriangle,
-  user: User,
+  user: LineChartIcon,
   arrowRight: ArrowRight,
   help: HelpCircle,
   pizza: Pizza,

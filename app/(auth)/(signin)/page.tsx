@@ -3,6 +3,8 @@ import Link from 'next/link';
 import UserAuthForm from '@/components/forms/user-auth-form';
 import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import Image from 'next/image';
+import Logo from '../../../public/images/Dataseed logo.svg';
 
 export const metadata: Metadata = {
   title: 'Dataseed Africa',
@@ -30,18 +32,13 @@ export default function AuthenticationPage() {
         <div className="absolute inset-0 bg-zinc-900/50" />{' '}
         {/* semi-transparent overlay */}
         <div className="relative z-20 flex items-center text-lg font-medium">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="mr-2 h-6 w-6"
-          >
-            <path d="M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3" />
-          </svg>
+          <Image
+            src={Logo} // Path to your logo
+            alt="Dataseed Logo" // Provide an alt text for accessibility
+            className="mr-2 h-6 w-6" // Adjust height and width as needed
+            width={24} // Specify width for Image component
+            height={24} // Specify height for Image component
+          />
           Dataseed
         </div>
         <div className="relative z-20 mt-auto">
@@ -51,7 +48,7 @@ export default function AuthenticationPage() {
               dataset with information ranging from farm status, farmers
               information, agricultural supply chains and so much more.&rdquo;
             </p>
-            <footer className="text-sm">Sofia Davis</footer>
+            <footer className="text-sm">Gabiro Arnauld</footer>
           </blockquote>
         </div>
       </div>
