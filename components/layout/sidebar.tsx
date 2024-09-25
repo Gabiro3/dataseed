@@ -7,7 +7,7 @@ import { ChevronLeft } from 'lucide-react';
 import { useSidebar } from '@/hooks/useSidebar';
 import Link from 'next/link';
 import Image from 'next/image';
-import Logo from '../../../public/images/Dataseed logo.svg';
+import Logo from '../../public/images/Dataseed logo.svg';
 
 type SidebarProps = {
   className?: string;
