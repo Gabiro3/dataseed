@@ -31,7 +31,8 @@ import {
   LineChartIcon,
   Tractor,
   FileTextIcon,
-  Lock
+  Lock,
+  Chrome
 } from 'lucide-react';
 
 export type Icon = LucideIcon;
@@ -63,7 +64,7 @@ export const Icons = {
   sun: SunMedium,
   moon: Moon,
   laptop: Laptop,
-  gitHub: Lock,
+  gitHub: Chrome,
   twitter: Twitter,
   check: Check
 };
