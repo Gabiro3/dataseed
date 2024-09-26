@@ -1,10 +1,10 @@
-// Reuse PrismaClient
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
 export async function GET(req: Request) {
   try {
+    // Execute the Prisma query every time
     const farmers = await prisma.farmer.findMany({
       select: {
         id: true,
@@ -49,6 +49,7 @@ export async function GET(req: Request) {
     );
     const roundedCultivatedLand = parseFloat(totalCultivatedLand.toFixed(2));
 
+    // Create a response and disable caching
     return new Response(
       JSON.stringify({
         totalFarmers,
@@ -59,7 +60,13 @@ export async function GET(req: Request) {
       {
         status: 200,
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          // Prevent caching
+          'Cache-Control':
+            'no-store, no-cache, must-revalidate, proxy-revalidate',
+          Pragma: 'no-cache',
+          Expires: '0',
+          'Surrogate-Control': 'no-store'
         }
       }
     );
