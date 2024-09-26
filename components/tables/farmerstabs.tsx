@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'; // Make sure to import your Card component
-import { Farmer } from '@/constants/data'; // Adjust the import according to your Farmer type definition
-import { RefreshCw } from 'lucide-react'; // Import the refresh icon from lucide-react
-
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import { RefreshCw } from 'lucide-react';
+import { fetchFarmersData } from '@/app/actions'; // Import the function to fetch farmer data
+import { Farmer } from '@/constants/data';
 const FarmerTabs: React.FC = () => {
   const [farmers, setFarmers] = useState<Farmer[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -12,14 +12,8 @@ const FarmerTabs: React.FC = () => {
   const getFarmersData = async () => {
     setLoading(true); // Set loading to true when fetching data
     try {
-      const response = await fetch('https://dataseed.vercel.app/api/farmers/', {
-        cache: 'no-cache'
-      });
-      if (!response.ok) {
-        throw new Error('Failed to fetch data');
-      }
-      const data = await response.json();
-      setFarmers(data.farmers); // Update the state with the farmers array
+      const data = await fetchFarmersData(); // Use the fetch function
+      setFarmers(data); // Update the state with the farmers array
     } catch (err) {
       console.error('Failed to fetch farmers data:', err);
       setError('Failed to fetch farmers data.');
