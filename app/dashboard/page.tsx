@@ -26,101 +26,15 @@ interface DashboardData {
 
 // Function to fetch details from the API
 async function fetchDetails() {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/farmers/`, {
-    cache: 'no-store'
-  });
+  const response = await fetch('/api/farmers/', { cache: 'no-cache' });
   if (!response.ok) {
     throw new Error('Failed to fetch data');
   }
   return response.json();
 }
 
-export async function getServerSideProps() {
-  let data: DashboardData | null = null;
-  let error: string | null = null;
-
-  try {
-    data = await fetchDetails();
-  } catch (err) {
-    error = 'Failed to fetch data';
-  }
-
-  return {
-    props: {
-      data,
-      error
-    }
-  };
-}
-
-export default function Page() {
-  const [data, setData] = useState<DashboardData | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const result = await fetchDetails();
-        console.log(result);
-        setData(result);
-      } catch (error) {
-        console.error('Failed to fetch data', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    // Initial fetch
-    fetchData();
-
-    // Optional: Listen for changes in the database and update state accordingly
-    // Implement WebSocket or other real-time mechanisms here
-  }, []);
-
-  if (loading) {
-    return (
-      <PageContainer scrollable={true}>
-        <div className="space-y-2">
-          <div className="flex items-center justify-between space-y-2">
-            <Skeleton className="h-8 w-48" /> {/* Skeleton for header */}
-            <Skeleton className="h-8 w-48" />{' '}
-            {/* Skeleton for date picker and button */}
-          </div>
-          <Tabs defaultValue="overview" className="space-y-4">
-            <TabsList>
-              <TabsTrigger value="overview">Overview</TabsTrigger>
-              <TabsTrigger value="analytics" disabled>
-                Analytics
-              </TabsTrigger>
-            </TabsList>
-            <TabsContent value="overview" className="space-y-4">
-              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                {[...Array(4)].map((_, index) => (
-                  <Card key={index}>
-                    <CardHeader>
-                      <Skeleton className="h-4 w-32" />
-                    </CardHeader>
-                    <CardContent>
-                      <Skeleton className="h-6 w-20" />
-                      <Skeleton className="h-4 w-28" />
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-              {/* Skeleton for graphs */}
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-7">
-                <Skeleton className="col-span-4 h-40" />
-                <Skeleton className="col-span-4 h-40 md:col-span-3" />
-                <Skeleton className="col-span-4 h-40" />
-                <Skeleton className="col-span-4 h-40 md:col-span-3" />
-              </div>
-            </TabsContent>
-          </Tabs>
-        </div>
-      </PageContainer>
-    );
-  }
+export default async function Page() {
+  const data: DashboardData = await fetchDetails();
 
   return (
     <PageContainer scrollable={true}>
