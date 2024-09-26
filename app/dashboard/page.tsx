@@ -6,8 +6,6 @@ import { PieGraph } from '@/components/charts/pie-graph';
 import { CalendarDateRangePicker } from '@/components/date-range-picker';
 import PageContainer from '@/components/layout/page-container';
 import { RecentSales } from '@/components/recent-sales';
-import { fetchFarmersData } from '@/app/actions';
-import { Farmer } from '@/constants/data';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -29,7 +27,6 @@ interface DashboardData {
 }
 
 export default async function Page() {
-  const farmers: Farmer[] = await fetchFarmersData();
   return (
     <PageContainer scrollable={true}>
       <div className="space-y-2">
@@ -50,7 +47,7 @@ export default async function Page() {
             </TabsTrigger>
           </TabsList>
           <TabsContent value="overview" className="space-y-4">
-            <FarmerTabs farmers={farmers} />
+            <FarmerTabs />
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-7">
               <div className="col-span-4">
                 <BarGraph />

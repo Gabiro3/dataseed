@@ -1,12 +1,39 @@
 // FarmerTabs.tsx
+import { useEffect, useState } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'; // Make sure to import your Card component
 import { Farmer } from '@/constants/data'; // Adjust the import according to your Farmer type definition
+import { fetchFarmersData } from '@/app/actions';
 
-type FarmerTabsProps = {
-  farmers: Farmer[];
-};
+const FarmerTabs: React.FC = () => {
+  const [farmers, setFarmers] = useState<Farmer[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
-const FarmerTabs: React.FC<FarmerTabsProps> = ({ farmers }) => {
+  useEffect(() => {
+    const getFarmersData = async () => {
+      try {
+        const farmersData = await fetchFarmersData();
+        setFarmers(farmersData);
+      } catch (err) {
+        console.error('Failed to fetch farmers data:', err);
+        setError('Failed to fetch farmers data.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    getFarmersData();
+  }, []);
+
+  // Handle loading and error states
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div className="text-red-600">{error}</div>;
+  }
+
   // Calculate necessary metrics
   const totalFarmers = farmers.length;
   const totalCultivatedLand = farmers.reduce(
@@ -14,11 +41,15 @@ const FarmerTabs: React.FC<FarmerTabsProps> = ({ farmers }) => {
     0
   ); // Sum of total farm area
   const averageCapitalPerFarmer =
-    farmers.reduce((acc, farmer) => acc + farmer.capitalRequired, 0) /
-      totalFarmers || 0; // Average capital
+    totalFarmers > 0
+      ? farmers.reduce((acc, farmer) => acc + farmer.capitalRequired, 0) /
+        totalFarmers
+      : 0; // Average capital
   const averageYieldSoldPercentagePerFarmer =
-    farmers.reduce((acc, farmer) => acc + farmer.yieldSoldPercentage, 0) /
-      totalFarmers || 0; // Average yield sold
+    totalFarmers > 0
+      ? farmers.reduce((acc, farmer) => acc + farmer.yieldSoldPercentage, 0) /
+        totalFarmers
+      : 0; // Average yield sold
 
   return (
     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
@@ -50,7 +81,7 @@ const FarmerTabs: React.FC<FarmerTabsProps> = ({ farmers }) => {
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">
-            {averageCapitalPerFarmer.toFixed(2)}Rwf
+            {averageCapitalPerFarmer.toFixed(2)} Rwf
           </div>
           <p className="text-xs text-muted-foreground">+19% from last year</p>
         </CardContent>
