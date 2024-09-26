@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from 'react';
+// FarmersDataTabs.tsx
+import React from 'react';
 import { Card, CardHeader, CardContent, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { fetchDetails } from '@/app/actions';
+
 interface DashboardData {
   totalFarmers: number;
   totalCultivatedLand: number;
@@ -9,50 +11,8 @@ interface DashboardData {
   averageYieldSoldPercentagePerFarmer: number;
 }
 
-async function fetchFarmersData() {
-  const response = await fetchDetails();
-  return response;
-}
-
-const FarmersDataTabs: React.FC = () => {
-  const [data, setData] = useState<DashboardData | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const result = await fetchFarmersData();
-        setData(result);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
-  console.log(data?.totalFarmers);
-
-  if (loading) {
-    return (
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        {[...Array(4)].map((_, index) => (
-          <Card key={index}>
-            <CardHeader>
-              <Skeleton className="h-4 w-32" />
-            </CardHeader>
-            <CardContent>
-              <Skeleton className="h-6 w-20" />
-              <Skeleton className="h-4 w-28" />
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-    );
-  }
-
+// Fetching data directly in the component
+const FarmersDataTabs: React.FC<{ data: DashboardData }> = ({ data }) => {
   return (
     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
       <Card>
@@ -63,7 +23,7 @@ const FarmersDataTabs: React.FC = () => {
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">
-            {data?.totalCultivatedLand} Ha
+            {data.totalCultivatedLand} Ha
           </div>
           <p className="text-xs text-muted-foreground">+20.1% from last year</p>
         </CardContent>
@@ -73,7 +33,7 @@ const FarmersDataTabs: React.FC = () => {
           <CardTitle className="text-sm font-medium">Total Farmers</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">{data?.totalFarmers}</div>
+          <div className="text-2xl font-bold">{data.totalFarmers}</div>
           <p className="text-xs text-muted-foreground">-15.1% from last year</p>
         </CardContent>
       </Card>
@@ -83,7 +43,7 @@ const FarmersDataTabs: React.FC = () => {
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">
-            {data?.averageCapitalPerFarmer}
+            {data.averageCapitalPerFarmer}
           </div>
           <p className="text-xs text-muted-foreground">+19% from last year</p>
         </CardContent>
@@ -94,7 +54,7 @@ const FarmersDataTabs: React.FC = () => {
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">
-            {data?.averageYieldSoldPercentagePerFarmer}
+            {data.averageYieldSoldPercentagePerFarmer}
           </div>
           <p className="text-xs text-muted-foreground">+4.9% from last year</p>
         </CardContent>
@@ -103,4 +63,7 @@ const FarmersDataTabs: React.FC = () => {
   );
 };
 
-export default FarmersDataTabs;
+export default async function FarmersData() {
+  const data: DashboardData = await fetchDetails();
+  return <FarmersDataTabs data={data} />;
+}
