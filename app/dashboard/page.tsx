@@ -54,13 +54,8 @@ export default function Page() {
     // Initial fetch
     fetchData();
 
-    // Set interval to fetch data every 5 seconds
-    const intervalId = setInterval(() => {
-      fetchData();
-    }, 5000); // 5000 milliseconds = 5 seconds
-
-    // Clear interval on component unmount
-    return () => clearInterval(intervalId);
+    // Optional: Listen for changes in the database and update state accordingly
+    // Implement WebSocket or other real-time mechanisms here
   }, []);
 
   if (loading) {
