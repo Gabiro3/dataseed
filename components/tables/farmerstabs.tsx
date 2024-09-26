@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'; // Make sure to import your Card component
 import { Farmer } from '@/constants/data'; // Adjust the import according to your Farmer type definition
-import { fetchFarmersData } from '@/app/actions';
+import { fetchDetails } from '@/app/actions';
 
 const FarmerTabs: React.FC = () => {
   const [farmers, setFarmers] = useState<Farmer[]>([]);
@@ -12,7 +12,7 @@ const FarmerTabs: React.FC = () => {
   useEffect(() => {
     const getFarmersData = async () => {
       try {
-        const farmersData = await fetchFarmersData();
+        const farmersData = await fetchDetails();
         setFarmers(farmersData);
       } catch (err) {
         console.error('Failed to fetch farmers data:', err);
