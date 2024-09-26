@@ -26,11 +26,31 @@ interface DashboardData {
 
 // Function to fetch details from the API
 async function fetchDetails() {
-  const response = await fetch('/api/farmers/', { cache: 'no-cache' });
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/farmers/`, {
+    cache: 'no-store'
+  });
   if (!response.ok) {
     throw new Error('Failed to fetch data');
   }
   return response.json();
+}
+
+export async function getServerSideProps() {
+  let data: DashboardData | null = null;
+  let error: string | null = null;
+
+  try {
+    data = await fetchDetails();
+  } catch (err) {
+    error = 'Failed to fetch data';
+  }
+
+  return {
+    props: {
+      data,
+      error
+    }
+  };
 }
 
 export default function Page() {
