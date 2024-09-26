@@ -1,30 +1,36 @@
+// FarmerTabs.tsx
 import { useEffect, useState } from 'react';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
-import { RefreshCw } from 'lucide-react';
-import { fetchFarmersData } from '@/app/actions'; // Import the function to fetch farmer data
-import { Farmer } from '@/constants/data';
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'; // Ensure correct import path for your Card component
+import { Farmer } from '@/constants/data'; // Adjust the import according to your Farmer type definition
+import { RefreshCcw } from 'lucide-react'; // Import the refresh icon from lucide-react
+
 const FarmerTabs: React.FC = () => {
   const [farmers, setFarmers] = useState<Farmer[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Function to fetch farmers data
   const getFarmersData = async () => {
-    setLoading(true); // Set loading to true when fetching data
+    setLoading(true); // Set loading state
     try {
-      const data = await fetchFarmersData(); // Use the fetch function
-      setFarmers(data); // Update the state with the farmers array
+      const response = await fetch('https://dataseed.vercel.app/api/farmers', {
+        method: 'GET',
+        cache: 'no-store' // Ensure fresh data is fetched
+      });
+      if (!response.ok) {
+        throw new Error('Failed to fetch farmers data');
+      }
+      const farmersData = await response.json();
+      setFarmers(farmersData);
     } catch (err) {
       console.error('Failed to fetch farmers data:', err);
       setError('Failed to fetch farmers data.');
     } finally {
-      setLoading(false); // Set loading to false after fetching
+      setLoading(false);
     }
   };
 
-  // Fetch farmers data when the component mounts
   useEffect(() => {
-    getFarmersData();
+    getFarmersData(); // Fetch farmers data on component mount
   }, []);
 
   // Handle loading and error states
@@ -56,13 +62,14 @@ const FarmerTabs: React.FC = () => {
   return (
     <div>
       <div className="mb-4 flex items-center justify-between">
-        <h2 className="text-lg font-semibold">Farmers Overview</h2>
+        <h2 className="text-lg font-bold">Farmers Overview</h2>
         <button
-          onClick={getFarmersData} // Trigger fetch when clicked
-          className="flex items-center rounded bg-gray-200 p-2 hover:bg-gray-300"
+          onClick={getFarmersData}
+          className="rounded-full p-2 transition hover:bg-gray-200"
+          aria-label="Refresh Farmers Data"
         >
-          <RefreshCw className="mr-1 h-5 w-5" /> {/* Refresh icon */}
-          Refresh
+          <RefreshCcw size={20} />{' '}
+          {/* Using the Refresh icon from lucide-react */}
         </button>
       </div>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
