@@ -18,6 +18,7 @@ import {
 import { Skeleton } from '@/components/ui/skeleton'; // import skeleton
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import FarmerTabs from '@/components/tables/farmerstabs';
+import { fetchDetails } from '../actions';
 
 interface DashboardData {
   totalFarmers: number;
@@ -27,6 +28,8 @@ interface DashboardData {
 }
 
 export default async function Page() {
+  const farmers = await fetchDetails();
+  console.log(farmers);
   return (
     <PageContainer scrollable={true}>
       <div className="space-y-2">
@@ -47,7 +50,7 @@ export default async function Page() {
             </TabsTrigger>
           </TabsList>
           <TabsContent value="overview" className="space-y-4">
-            <FarmerTabs />
+            <FarmerTabs farmers={farmers} />
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-7">
               <div className="col-span-4">
                 <BarGraph />
