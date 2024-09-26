@@ -27,10 +27,10 @@ export const fetchFarmersData = async () => {
     await prisma.$disconnect();
   }
 };
-export async function fetchDetails() {
+export const fetchDetails = async () => {
   const response = await fetch('/api/farmers/', { cache: 'no-cache' });
   if (!response.ok) {
     throw new Error('Failed to fetch data');
   }
   return response.json();
-}
+};
