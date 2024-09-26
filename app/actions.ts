@@ -28,7 +28,7 @@ export const fetchFarmersData = async () => {
   }
 };
 export const fetchDetails = async () => {
-  const response = await fetch('https://dataseed.vercel.app/api/farmers/', {
+  const response = await fetch('https://dataseed.vercel.app/api/farmers', {
     cache: 'no-cache'
   });
   if (!response.ok) {
