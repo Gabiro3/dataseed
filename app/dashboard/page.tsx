@@ -25,7 +25,7 @@ interface DashboardData {
 }
 
 // Function to fetch details from the API
-export async function fetchDetails() {
+async function fetchDetails() {
   const response = await fetch('/api/farmers/', { cache: 'no-cache' });
   if (!response.ok) {
     throw new Error('Failed to fetch data');
