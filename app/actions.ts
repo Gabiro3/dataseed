@@ -31,7 +31,21 @@ export const fetchFarmersData = async () => {
 export async function fetchDetails() {
   try {
     // Fetch farmers data directly using the fetchFarmersData function
-    const farmers = await fetchFarmersData();
+    const farmers = await prisma.farmer.findMany({
+      select: {
+        id: true,
+        phoneNumber: true,
+        nationalID: true,
+        totalFarmArea: true,
+        capitalRequired: true,
+        pestTreatmentSource: true,
+        sellingMarkets: true,
+        farmLocation: true,
+        yieldSoldPercentage: true,
+        createdAt: true,
+        updatedAt: true
+      }
+    });
 
     // Perform calculations based on the fetched farmers data
     const totalFarmers = farmers.length;
