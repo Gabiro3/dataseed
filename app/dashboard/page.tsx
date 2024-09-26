@@ -18,6 +18,7 @@ import {
 import { Skeleton } from '@/components/ui/skeleton'; // import skeleton
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { fetchDetails } from '../actions';
+import FarmersDataTabs from '@/components/tabs';
 
 interface DashboardData {
   totalFarmers: number;
@@ -63,19 +64,7 @@ export default function Page() {
               </TabsTrigger>
             </TabsList>
             <TabsContent value="overview" className="space-y-4">
-              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                {[...Array(4)].map((_, index) => (
-                  <Card key={index}>
-                    <CardHeader>
-                      <Skeleton className="h-4 w-32" />
-                    </CardHeader>
-                    <CardContent>
-                      <Skeleton className="h-6 w-20" />
-                      <Skeleton className="h-4 w-28" />
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
+              <FarmersDataTabs />
               {/* Skeleton for graphs */}
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-7">
                 <Skeleton className="col-span-4 h-40" />
