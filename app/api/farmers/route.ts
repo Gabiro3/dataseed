@@ -47,11 +47,12 @@ export async function GET(req: Request) {
     const roundedAverageYield = parseFloat(
       averageYieldSoldPercentagePerFarmer.toFixed(2)
     );
+    const roundedCultivatedLand = parseFloat(totalCultivatedLand.toFixed(2));
 
     return new Response(
       JSON.stringify({
         totalFarmers,
-        totalCultivatedLand,
+        totalCultivatedLand: roundedCultivatedLand,
         averageCapitalPerFarmer: roundedAverageCapital,
         averageYieldSoldPercentagePerFarmer: roundedAverageYield
       }),
