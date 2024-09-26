@@ -36,5 +36,5 @@ export const fetchDetails = async () => {
   }
 
   const data = await response.json(); // Await the JSON response
-  return data.farmers; // Return the farmers array directly
+  return data;
 };
