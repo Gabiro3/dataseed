@@ -33,7 +33,9 @@ export const fetchFarmersData = async () => {
 };
 // actions.ts
 export const fetchDetails = async (): Promise<DashboardData> => {
-  const response = await fetch('/api/farmers/', { cache: 'no-store' });
+  const response = await fetch('https://dataseed.vercel.app/api/farmers/', {
+    cache: 'no-store'
+  });
   if (!response.ok) {
     throw new Error('Failed to fetch data');
   }
