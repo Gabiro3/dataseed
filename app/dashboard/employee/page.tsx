@@ -24,7 +24,8 @@ type ParamsProps = {
 
 export default async function Page({ searchParams }: ParamsProps) {
   // Fetch farmers data directly
-  const farmers: Farmer[] = await fetchFarmersData();
+  const { justFarmers } = await fetchFarmersData();
+  const farmers: Farmer[] = justFarmers;
   const totalFarmers = farmers.length; // Count total farmers
   const pageCount = 1; // Since we're not paginating for now
 

@@ -17,7 +17,7 @@ import {
 } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton'; // import skeleton
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { fetchDetails } from '@/app/actions';
+import { fetchFarmersData } from '@/app/actions';
 
 interface DashboardData {
   totalFarmers: number;
@@ -34,7 +34,7 @@ export default function Page() {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const result = await fetchDetails();
+        const result = await fetchFarmersData();
         console.log(result);
         setData(result);
       } catch (error) {
