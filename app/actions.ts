@@ -1,11 +1,7 @@
 import { PrismaClient } from '@prisma/client';
+
 const prisma = new PrismaClient();
-interface DashboardData {
-  totalFarmers: number;
-  totalCultivatedLand: number;
-  averageCapitalPerFarmer: number;
-  averageYieldSoldPercentagePerFarmer: number;
-}
+
 export const fetchFarmersData = async () => {
   try {
     const farmers = await prisma.farmer.findMany({
@@ -31,11 +27,8 @@ export const fetchFarmersData = async () => {
     await prisma.$disconnect();
   }
 };
-// actions.ts
-export const fetchDetails = async (): Promise<DashboardData> => {
-  const response = await fetch('https://dataseed.vercel.app/api/farmers/', {
-    cache: 'no-store'
-  });
+export const fetchDetails = async () => {
+  const response = await fetch('/api/farmers/', { cache: 'no-cache' });
   if (!response.ok) {
     throw new Error('Failed to fetch data');
   }
