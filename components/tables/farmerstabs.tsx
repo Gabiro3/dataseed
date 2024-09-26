@@ -29,7 +29,9 @@ const FarmerTabs: React.FC<FarmerTabsProps> = ({ farmers }) => {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">{totalCultivatedLand} Ha</div>
+          <div className="text-2xl font-bold">
+            {totalCultivatedLand.toFixed(2)} Ha
+          </div>
           <p className="text-xs text-muted-foreground">+20.1% from last year</p>
         </CardContent>
       </Card>
@@ -48,7 +50,7 @@ const FarmerTabs: React.FC<FarmerTabsProps> = ({ farmers }) => {
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">
-            {averageCapitalPerFarmer.toFixed(2)}
+            {averageCapitalPerFarmer.toFixed(2)}Rwf
           </div>
           <p className="text-xs text-muted-foreground">+19% from last year</p>
         </CardContent>
