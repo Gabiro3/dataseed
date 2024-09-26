@@ -33,6 +33,7 @@ const FarmersDataTabs: React.FC = () => {
 
     fetchData();
   }, []);
+  console.log(data?.totalFarmers);
 
   if (loading) {
     return (
