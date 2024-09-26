@@ -31,6 +31,7 @@ export const fetchDetails = async () => {
   const response = await fetch('https://dataseed.vercel.app/api/farmers/', {
     cache: 'no-cache'
   });
+  console.log(response);
   if (!response.ok) {
     throw new Error('Failed to fetch data');
   }

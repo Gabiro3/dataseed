@@ -35,6 +35,7 @@ export default function Page() {
       setLoading(true);
       try {
         const result = await fetchDetails();
+        console.log(result);
         setData(result);
       } catch (error) {
         console.error('Failed to fetch data', error);
