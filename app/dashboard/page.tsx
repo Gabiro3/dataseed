@@ -6,7 +6,6 @@ import { PieGraph } from '@/components/charts/pie-graph';
 import { CalendarDateRangePicker } from '@/components/date-range-picker';
 import PageContainer from '@/components/layout/page-container';
 import { RecentSales } from '@/components/recent-sales';
-
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -15,15 +14,23 @@ import {
   CardHeader,
   CardTitle
 } from '@/components/ui/card';
-import { Skeleton } from '@/components/ui/skeleton'; // import skeleton
+import { Skeleton } from '@/components/ui/skeleton';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { fetchDetails } from '@/app/actions';
 
 interface DashboardData {
   totalFarmers: number;
   totalCultivatedLand: number;
   averageCapitalPerFarmer: number;
   averageYieldSoldPercentagePerFarmer: number;
+}
+
+// Function to fetch details from the API
+export async function fetchDetails() {
+  const response = await fetch('/api/farmers/', { cache: 'no-cache' });
+  if (!response.ok) {
+    throw new Error('Failed to fetch data');
+  }
+  return response.json();
 }
 
 export default function Page() {
@@ -44,7 +51,16 @@ export default function Page() {
       }
     };
 
+    // Initial fetch
     fetchData();
+
+    // Set interval to fetch data every 5 seconds
+    const intervalId = setInterval(() => {
+      fetchData();
+    }, 5000); // 5000 milliseconds = 5 seconds
+
+    // Clear interval on component unmount
+    return () => clearInterval(intervalId);
   }, []);
 
   if (loading) {
@@ -117,7 +133,6 @@ export default function Page() {
                   <CardTitle className="text-sm font-medium">
                     Total Cultivated Land
                   </CardTitle>
-                  {/* SVG Icon */}
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">
@@ -133,7 +148,6 @@ export default function Page() {
                   <CardTitle className="text-sm font-medium">
                     Total Farmers
                   </CardTitle>
-                  {/* SVG Icon */}
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">{data?.totalFarmers}</div>
@@ -147,19 +161,6 @@ export default function Page() {
                   <CardTitle className="text-sm font-medium">
                     Avg. Capital
                   </CardTitle>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    className="h-4 w-4 text-muted-foreground"
-                  >
-                    <rect width="20" height="14" x="2" y="5" rx="2" />
-                    <path d="M2 10h20" />
-                  </svg>
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">
@@ -175,18 +176,6 @@ export default function Page() {
                   <CardTitle className="text-sm font-medium">
                     Avg. Yield Sold
                   </CardTitle>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    className="h-4 w-4 text-muted-foreground"
-                  >
-                    <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
-                  </svg>
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">
@@ -197,7 +186,6 @@ export default function Page() {
                   </p>
                 </CardContent>
               </Card>
-              {/* Repeat for other cards with actual data */}
             </div>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-7">
               <div className="col-span-4">
