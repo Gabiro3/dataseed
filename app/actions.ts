@@ -32,5 +32,7 @@ export const fetchDetails = async () => {
   if (!response.ok) {
     throw new Error('Failed to fetch data');
   }
-  return response.json();
+
+  const data = await response.json(); // Await the JSON response
+  return data.farmers; // Return the farmers array directly
 };
