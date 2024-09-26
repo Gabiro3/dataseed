@@ -12,7 +12,9 @@ const FarmerTabs: React.FC = () => {
   const getFarmersData = async () => {
     setLoading(true); // Set loading to true when fetching data
     try {
-      const response = await fetch('/api/farmers/', { cache: 'no-cache' });
+      const response = await fetch('https://dataseed.vercel.app/api/farmers/', {
+        cache: 'no-cache'
+      });
       if (!response.ok) {
         throw new Error('Failed to fetch data');
       }
