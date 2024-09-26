@@ -1,8 +1,8 @@
+// Reuse PrismaClient
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-// Handle GET requests
 export async function GET(req: Request) {
   try {
     const farmers = await prisma.farmer.findMany({
@@ -65,7 +65,5 @@ export async function GET(req: Request) {
         }
       }
     );
-  } finally {
-    await prisma.$disconnect();
   }
 }
