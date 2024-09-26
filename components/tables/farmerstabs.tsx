@@ -3,26 +3,28 @@ import { useEffect, useState } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'; // Make sure to import your Card component
 import { Farmer } from '@/constants/data'; // Adjust the import according to your Farmer type definition
 import { fetchDetails } from '@/app/actions';
+import { RefreshCcw } from 'lucide-react'; // Import the refresh icon from lucide-react
 
 const FarmerTabs: React.FC = () => {
   const [farmers, setFarmers] = useState<Farmer[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const getFarmersData = async () => {
-      try {
-        const farmersData = await fetchDetails();
-        setFarmers(farmersData);
-      } catch (err) {
-        console.error('Failed to fetch farmers data:', err);
-        setError('Failed to fetch farmers data.');
-      } finally {
-        setLoading(false);
-      }
-    };
+  const getFarmersData = async () => {
+    setLoading(true); // Set loading state
+    try {
+      const farmersData = await fetchDetails();
+      setFarmers(farmersData);
+    } catch (err) {
+      console.error('Failed to fetch farmers data:', err);
+      setError('Failed to fetch farmers data.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    getFarmersData();
+  useEffect(() => {
+    getFarmersData(); // Fetch farmers data on component mount
   }, []);
 
   // Handle loading and error states
@@ -52,51 +54,72 @@ const FarmerTabs: React.FC = () => {
       : 0; // Average yield sold
 
   return (
-    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">
-            Total Cultivated Land
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="text-2xl font-bold">
-            {totalCultivatedLand.toFixed(2)} Ha
-          </div>
-          <p className="text-xs text-muted-foreground">+20.1% from last year</p>
-        </CardContent>
-      </Card>
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Total Farmers</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="text-2xl font-bold">{totalFarmers}</div>
-          <p className="text-xs text-muted-foreground">-15.1% from last year</p>
-        </CardContent>
-      </Card>
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Avg. Capital</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="text-2xl font-bold">
-            {averageCapitalPerFarmer.toFixed(2)} Rwf
-          </div>
-          <p className="text-xs text-muted-foreground">+19% from last year</p>
-        </CardContent>
-      </Card>
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Avg. Yield Sold</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="text-2xl font-bold">
-            {averageYieldSoldPercentagePerFarmer.toFixed(2)}%
-          </div>
-          <p className="text-xs text-muted-foreground">+4.9% from last year</p>
-        </CardContent>
-      </Card>
+    <div>
+      <div className="mb-4 flex items-center justify-between">
+        <h2 className="text-lg font-bold">Farmers Overview</h2>
+        <button
+          onClick={getFarmersData}
+          className="rounded-full p-2 transition hover:bg-gray-200"
+          aria-label="Refresh Farmers Data"
+        >
+          <RefreshCcw size={20} />{' '}
+          {/* Using the Refresh icon from lucide-react */}
+        </button>
+      </div>
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">
+              Total Cultivated Land
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">
+              {totalCultivatedLand.toFixed(2)} Ha
+            </div>
+            <p className="text-xs text-muted-foreground">
+              +20.1% from last year
+            </p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Total Farmers</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{totalFarmers}</div>
+            <p className="text-xs text-muted-foreground">
+              -15.1% from last year
+            </p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Avg. Capital</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">
+              {averageCapitalPerFarmer.toFixed(2)} Rwf
+            </div>
+            <p className="text-xs text-muted-foreground">+19% from last year</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">
+              Avg. Yield Sold
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">
+              {averageYieldSoldPercentagePerFarmer.toFixed(2)}%
+            </div>
+            <p className="text-xs text-muted-foreground">
+              +4.9% from last year
+            </p>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 };
