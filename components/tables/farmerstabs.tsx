@@ -20,7 +20,7 @@ const FarmerTabs: React.FC = () => {
         throw new Error('Failed to fetch farmers data');
       }
       const farmersData = await response.json();
-      setFarmers(farmersData);
+      setFarmers(farmersData.farmers);
     } catch (err) {
       console.error('Failed to fetch farmers data:', err);
       setError('Failed to fetch farmers data.');
