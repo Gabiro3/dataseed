@@ -17,7 +17,7 @@ import {
 } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton'; // import skeleton
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { fetchDetails } from '../actions';
+import { fetchDetails } from '@/app/actions';
 
 interface DashboardData {
   totalFarmers: number;
@@ -35,6 +35,7 @@ export default function Page() {
       setLoading(true);
       try {
         const result = await fetchDetails();
+        console.log(result);
         setData(result);
       } catch (error) {
         console.error('Failed to fetch data', error);
