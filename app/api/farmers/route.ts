@@ -40,12 +40,20 @@ export async function GET(req: Request) {
     const averageYieldSoldPercentagePerFarmer =
       totalFarmers > 0 ? totalYieldSoldPercentage / totalFarmers : 0;
 
+    // Round off to two decimal places
+    const roundedAverageCapital = parseFloat(
+      averageCapitalPerFarmer.toFixed(2)
+    );
+    const roundedAverageYield = parseFloat(
+      averageYieldSoldPercentagePerFarmer.toFixed(2)
+    );
+
     return new Response(
       JSON.stringify({
         totalFarmers,
         totalCultivatedLand,
-        averageCapitalPerFarmer,
-        averageYieldSoldPercentagePerFarmer
+        averageCapitalPerFarmer: roundedAverageCapital,
+        averageYieldSoldPercentagePerFarmer: roundedAverageYield
       }),
       {
         status: 200,
