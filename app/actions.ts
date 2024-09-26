@@ -28,7 +28,7 @@ export const fetchFarmersData = async () => {
   }
 };
 export async function fetchDetails() {
-  const response = await fetch('/api/farmers/');
+  const response = await fetch('/api/farmers/', { cache: 'no-cache' });
   if (!response.ok) {
     throw new Error('Failed to fetch data');
   }
