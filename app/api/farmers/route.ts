@@ -1,7 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
+import { useSession } from 'next-auth/react';
+const { data: session } = useSession();
 
 export async function GET(req: Request) {
+  if (!session) {
+    return NextResponse.redirect(new URL('/auth/'));
+  }
   try {
     // Optional: Use authentication if needed
 

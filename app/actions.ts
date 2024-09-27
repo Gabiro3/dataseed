@@ -46,7 +46,7 @@ export const fetchDetails = async () => {
 
     // Parse the response JSON
     const data = await response.json();
-    const farmers: Farmer[] = data.farmers; // Access the farmers data from the response
+    const farmers: Farmer[] = data; // Access the farmers data from the response
 
     // Perform calculations
     const totalFarmers = farmers.length;
