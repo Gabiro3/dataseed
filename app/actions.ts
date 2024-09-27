@@ -37,7 +37,7 @@ interface Farmer {
 export const fetchDetails = async () => {
   try {
     // Fetch farmers data from the database
-    const response = await fetch('/api/farmers');
+    const response = await fetch(`/api/farmers?ts=${Date.now()}`);
 
     // Check if the response is successful
     if (!response.ok) {
