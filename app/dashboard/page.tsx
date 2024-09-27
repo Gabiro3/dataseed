@@ -36,7 +36,12 @@ export default function Page() {
       try {
         const result = await fetchDetails();
         console.log(result);
-        setData(result);
+        setData({
+          totalFarmers: result.totalFarmers,
+          totalCultivatedLand: result.roundedCultivatedLand, // Use rounded value here
+          averageCapitalPerFarmer: result.roundedAverageCapital, // Use rounded value here
+          averageYieldSoldPercentagePerFarmer: result.roundedAverageYield // Use rounded value here
+        });
       } catch (error) {
         console.error('Failed to fetch data', error);
       } finally {
