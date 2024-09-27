@@ -3,10 +3,6 @@ import { db } from '@/lib/db';
 import { useSession } from 'next-auth/react';
 
 export async function GET(req: Request) {
-  const { data: session } = useSession();
-  if (!session) {
-    return NextResponse.json({ message: 'Unauthorized' });
-  }
   try {
     // Optional: Use authentication if needed
 
