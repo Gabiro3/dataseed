@@ -35,7 +35,6 @@ export default function Page() {
       setLoading(true);
       try {
         const result = await fetchDetails();
-        console.log(result);
         setData({
           totalFarmers: result?.totalFarmers,
           totalCultivatedLand: result?.roundedCultivatedLand, // Use rounded value here
