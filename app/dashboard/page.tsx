@@ -20,10 +20,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { fetchDetails } from '../actions';
 
 interface DashboardData {
-  totalFarmers: number;
-  totalCultivatedLand: number;
-  averageCapitalPerFarmer: number;
-  averageYieldSoldPercentagePerFarmer: number;
+  totalFarmers: number | undefined;
+  totalCultivatedLand: number | undefined;
+  averageCapitalPerFarmer: number | undefined;
+  averageYieldSoldPercentagePerFarmer: number | undefined;
 }
 
 export default function Page() {
@@ -37,10 +37,10 @@ export default function Page() {
         const result = await fetchDetails();
         console.log(result);
         setData({
-          totalFarmers: result.totalFarmers,
-          totalCultivatedLand: result.roundedCultivatedLand, // Use rounded value here
-          averageCapitalPerFarmer: result.roundedAverageCapital, // Use rounded value here
-          averageYieldSoldPercentagePerFarmer: result.roundedAverageYield // Use rounded value here
+          totalFarmers: result?.totalFarmers,
+          totalCultivatedLand: result?.roundedCultivatedLand, // Use rounded value here
+          averageCapitalPerFarmer: result?.roundedAverageCapital, // Use rounded value here
+          averageYieldSoldPercentagePerFarmer: result?.roundedAverageYield // Use rounded value here
         });
       } catch (error) {
         console.error('Failed to fetch data', error);
