@@ -168,7 +168,7 @@ export default function Page() {
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">
-                    {data?.averageCapitalPerFarmer}
+                    {data?.averageCapitalPerFarmer}Rwf
                   </div>
                   <p className="text-xs text-muted-foreground">
                     +19% from last year
@@ -195,7 +195,7 @@ export default function Page() {
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">
-                    {data?.averageYieldSoldPercentagePerFarmer}
+                    {data?.averageYieldSoldPercentagePerFarmer}%
                   </div>
                   <p className="text-xs text-muted-foreground">
                     +4.9% from last year

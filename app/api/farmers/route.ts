@@ -1,11 +1,12 @@
-import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
+import { NextRequest, NextResponse } from 'next/server';
+import { db } from '@/lib/db';
 
 export async function GET(req: Request) {
   try {
-    // Execute the Prisma query every time
-    const farmers = await prisma.farmer.findMany({
+    // Optional: Use authentication if needed
+
+    // Fetch farmers data using db.farmer.get() method
+    const farmers = await db.farmer.findMany({
       select: {
         id: true,
         phoneNumber: true,
@@ -22,33 +23,18 @@ export async function GET(req: Request) {
     });
 
     // Create a response and disable caching
-    return new Response(
-      JSON.stringify({
-        farmers
-      }),
-      {
-        status: 200,
-        headers: {
-          'Content-Type': 'application/json',
-          // Prevent caching
-          'Cache-Control':
-            'no-store, no-cache, must-revalidate, proxy-revalidate',
-          Pragma: 'no-cache',
-          Expires: '0',
-          'Surrogate-Control': 'no-store'
-        }
+    return NextResponse.json(farmers, {
+      status: 200,
+      headers: {
+        'Cache-Control':
+          'no-store, no-cache, must-revalidate, proxy-revalidate',
+        Pragma: 'no-cache',
+        Expires: '0',
+        'Surrogate-Control': 'no-store'
       }
-    );
+    });
   } catch (error) {
     console.error('Error fetching farmers data:', error);
-    return new Response(
-      JSON.stringify({ error: 'Could not fetch farmers data' }),
-      {
-        status: 500,
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      }
-    );
+    return new NextResponse('Could not fetch farmers data', { status: 500 });
   }
 }
