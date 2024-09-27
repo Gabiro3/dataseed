@@ -1,13 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { db } from '@/lib/db';
-import { useSession } from 'next-auth/react';
+import { PrismaClient } from '@prisma/client';
 
-export async function GET(req: Request) {
+export async function GET(req: NextRequest) {
+  const prisma = new PrismaClient(); // Create a new instance of PrismaClient for each request
   try {
-    // Optional: Use authentication if needed
-
-    // Fetch farmers data using db.farmer.get() method
-    const farmers = await db.farmer.findMany({
+    // Fetch farmers data from the database
+    const farmers = await prisma.farmer.findMany({
       select: {
         id: true,
         phoneNumber: true,
@@ -37,5 +35,7 @@ export async function GET(req: Request) {
   } catch (error) {
     console.error('Error fetching farmers data:', error);
     return new NextResponse('Could not fetch farmers data', { status: 500 });
+  } finally {
+    await prisma.$disconnect(); // Ensure that the database connection is closed after the request
   }
 }
