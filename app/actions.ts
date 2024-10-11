@@ -37,9 +37,7 @@ interface Farmer {
 export const fetchDetails = async () => {
   try {
     // Fetch farmers data from the API
-    const response = await fetch(
-      `${process.env.API_URL}/farmers?ts=${Date.now()}`
-    );
+    const response = await fetch(`${process.env.API_URL}/farmers`);
 
     // Check if the response is successful
     if (!response.ok) {
