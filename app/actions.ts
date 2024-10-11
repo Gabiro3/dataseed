@@ -36,8 +36,10 @@ interface Farmer {
 
 export const fetchDetails = async () => {
   try {
-    // Fetch farmers data from the database
-    const response = await fetch(`/api/farmers?ts=${Date.now()}`);
+    // Fetch farmers data from the API
+    const response = await fetch(
+      `${process.env.API_URL}/farmers?ts=${Date.now()}`
+    );
 
     // Check if the response is successful
     if (!response.ok) {
@@ -46,36 +48,14 @@ export const fetchDetails = async () => {
 
     // Parse the response JSON
     const data = await response.json();
-    const farmers: Farmer[] = data; // Access the farmers data from the response
 
-    // Perform calculations
-    const totalFarmers = farmers.length;
-    const totalCultivatedLand = farmers.reduce<number>(
-      (acc, farmer) => acc + farmer.totalFarmArea,
-      0
+    // Access the farmers data from the response
+    const totalFarmers = data['Total farmers'];
+    const roundedCultivatedLand = parseFloat(
+      data['Total farm area'].toFixed(2)
     );
-    const totalCapital = farmers.reduce<number>(
-      (acc, farmer) => acc + farmer.capitalRequired,
-      0
-    );
-    const totalYieldSoldPercentage = farmers.reduce<number>(
-      (acc, farmer) => acc + farmer.yieldSoldPercentage,
-      0
-    );
-
-    const averageCapitalPerFarmer =
-      totalFarmers > 0 ? totalCapital / totalFarmers : 0;
-    const averageYieldSoldPercentagePerFarmer =
-      totalFarmers > 0 ? totalYieldSoldPercentage / totalFarmers : 0;
-
-    // Round off to two decimal places
-    const roundedAverageCapital = parseFloat(
-      averageCapitalPerFarmer.toFixed(2)
-    );
-    const roundedAverageYield = parseFloat(
-      averageYieldSoldPercentagePerFarmer.toFixed(2)
-    );
-    const roundedCultivatedLand = parseFloat(totalCultivatedLand.toFixed(2));
+    const roundedAverageCapital = parseFloat(data['Avg Capital'].toFixed(2));
+    const roundedAverageYield = parseFloat(data['Avg Yield'].toFixed(2));
 
     // Return the calculated details
     return {
@@ -86,6 +66,6 @@ export const fetchDetails = async () => {
     };
   } catch (error) {
     console.error('Error fetching details:', error);
-    return null; // or handle the error as needed
+    return null; // Handle the error as needed
   }
 };
