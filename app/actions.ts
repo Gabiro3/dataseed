@@ -37,7 +37,7 @@ interface Farmer {
 export const fetchDetails = async () => {
   try {
     // Fetch farmers data from the API
-    const response = await fetch(`${process.env.API_URL}/farmers`);
+    const response = await fetch(`https://dataseed-api.onrender.com/farmers`);
 
     // Check if the response is successful
     if (!response.ok) {
