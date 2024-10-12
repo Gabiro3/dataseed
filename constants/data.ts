@@ -139,9 +139,9 @@ export const navItems: NavItem[] = [
   },
   {
     title: 'Farmers',
-    href: '/dashboard/employee',
-    icon: 'employee',
-    label: 'employee'
+    href: '/dashboard/farmers',
+    icon: 'farmer',
+    label: 'farmer'
   },
   {
     title: 'Profile',

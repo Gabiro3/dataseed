@@ -8,10 +8,20 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
+import {
+  AlertDialog,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle
+} from '@/components/ui/alert-dialog';
 import { User } from '@/constants/data';
-import { Edit, MoreHorizontal, Trash } from 'lucide-react';
+import { MoreHorizontal, Trash, Eye } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import * as React from 'react';
 
 interface CellActionProps {
   data: User;
@@ -20,6 +30,7 @@ interface CellActionProps {
 export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
+  const [showDeleteDialog, setShowDeleteDialog] = React.useState(false);
   const router = useRouter();
 
   const onConfirm = async () => {};
@@ -43,11 +54,14 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
 
           <DropdownMenuItem
-            onClick={() => router.push(`/dashboard/user/${data.id}`)}
+            onClick={() => router.push(`/dashboard/farmers/${data.id}`)}
           >
-            <Edit className="mr-2 h-4 w-4" /> Update
+            <Eye className="mr-2 h-4 w-4" /> View
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => setOpen(true)}>
+          <DropdownMenuItem
+            onSelect={() => setShowDeleteDialog(true)}
+            className="text-red-600"
+          >
             <Trash className="mr-2 h-4 w-4" /> Delete
           </DropdownMenuItem>
         </DropdownMenuContent>

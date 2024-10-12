@@ -48,7 +48,7 @@ export const Icons = {
   chevronLeft: ChevronLeft,
   chevronRight: ChevronRight,
   trash: Trash,
-  employee: Tractor,
+  farmer: Tractor,
   post: FileText,
   page: File,
   media: Image,
